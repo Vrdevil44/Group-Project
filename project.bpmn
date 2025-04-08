@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   id="Definitions_0"
+                   targetNamespace="http://bpmn.io/schema/bpmn">
+  
+  <!-- EverSure Traditional Pool -->
+  <bpmn2:collaboration id="Collaboration_1">
+    <bpmn2:participant id="Participant_1" name="EverSure Traditional" processRef="Process_1"/>
+    <bpmn2:participant id="Participant_2" name="Customer" processRef="Process_2"/>
+  </bpmn2:collaboration>
+
+  <!-- EverSure Traditional Process -->
+  <bpmn2:process id="Process_1">
+    <!-- Lanes -->
+    <bpmn2:laneSet id="LaneSet_1">
+      <bpmn2:lane id="Lane_1" name="Sales Representative">
+        <bpmn2:flowNodeRef>StartEvent_1</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_1</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_2</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_2" name="Sales Admin">
+        <bpmn2:flowNodeRef>Task_3</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_4</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_5</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_3" name="Back Office"/>
+    </bpmn2:laneSet>
+
+    <!-- Start Event -->
+    <bpmn2:startEvent id="StartEvent_1" name="Start Lead Generation">
+      <bpmn2:outgoing>Flow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+
+    <!-- Initial Activities in Sales Representative Lane -->
+    <bpmn2:task id="Task_1" name="Identify potential new customers">
+      <bpmn2:incoming>Flow_1</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_2</bpmn2:outgoing>
+    </bpmn2:task>
+
+    <bpmn2:sendTask id="Task_2" name="Submit request to Sales Admin">
+      <bpmn2:incoming>Flow_2</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_3</bpmn2:outgoing>
+    </bpmn2:sendTask>
+
+    <!-- Activities in Sales Admin Lane -->
+    <bpmn2:receiveTask id="Task_3" name="Receive request from Sales">
+      <bpmn2:incoming>Flow_3</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_4</bpmn2:outgoing>
+    </bpmn2:receiveTask>
+
+    <bpmn2:task id="Task_4" name="Prepare customer report using CNTR">
+      <bpmn2:incoming>Flow_4</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_5</bpmn2:outgoing>
+    </bpmn2:task>
+
+    <bpmn2:sendTask id="Task_5" name="Send report to Sales Representative">
+      <bpmn2:incoming>Flow_5</bpmn2:incoming>
+    </bpmn2:sendTask>
+
+    <!-- Data Store -->
+    <bpmn2:dataStoreReference id="DataStore_1" name="CNTR System"/>
+
+    <!-- Flows -->
+    <bpmn2:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_1"/>
+    <bpmn2:sequenceFlow id="Flow_2" sourceRef="Task_1" targetRef="Task_2"/>
+    <bpmn2:sequenceFlow id="Flow_3" sourceRef="Task_2" targetRef="Task_3"/>
+    <bpmn2:sequenceFlow id="Flow_4" sourceRef="Task_3" targetRef="Task_4"/>
+    <bpmn2:sequenceFlow id="Flow_5" sourceRef="Task_4" targetRef="Task_5"/>
+
+    <!-- Association -->
+    <bpmn2:association id="Association_1" sourceRef="Task_4" targetRef="DataStore_1"/>
+  </bpmn2:process>
+
+  <!-- Customer Process -->
+  <bpmn2:process id="Process_2"/>
+
+  <!-- Diagram -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <!-- EverSure Traditional Pool -->
+      <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="100" y="100" width="800" height="400"/>
+      </bpmndi:BPMNShape>
+
+      <!-- Customer Pool -->
+      <bpmndi:BPMNShape id="Participant_2_di" bpmnElement="Participant_2" isHorizontal="true">
+        <dc:Bounds x="100" y="550" width="800" height="200"/>
+      </bpmndi:BPMNShape>
+
+      <!-- Lanes -->
+      <bpmndi:BPMNShape id="Lane_1_di" bpmnElement="Lane_1" isHorizontal="true">
+        <dc:Bounds x="130" y="100" width="770" height="133"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Lane_2_di" bpmnElement="Lane_2" isHorizontal="true">
+        <dc:Bounds x="130" y="233" width="770" height="134"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Lane_3_di" bpmnElement="Lane_3" isHorizontal="true">
+        <dc:Bounds x="130" y="367" width="770" height="133"/>
+      </bpmndi:BPMNShape>
+
+      <!-- Start Event -->
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="142" width="36" height="36"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="140" y="185" width="60" height="27"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks -->
+      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+        <dc:Bounds x="240" y="120" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_2_di" bpmnElement="Task_2">
+        <dc:Bounds x="390" y="120" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_3_di" bpmnElement="Task_3">
+        <dc:Bounds x="240" y="260" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_4_di" bpmnElement="Task_4">
+        <dc:Bounds x="390" y="260" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_5_di" bpmnElement="Task_5">
+        <dc:Bounds x="540" y="260" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <!-- Data Store -->
+      <bpmndi:BPMNShape id="DataStore_1_di" bpmnElement="DataStore_1">
+        <dc:Bounds x="415" y="375" width="50" height="50"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="405" y="432" width="70" height="14"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Flows -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="188" y="160"/>
+        <di:waypoint x="240" y="160"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="340" y="160"/>
+        <di:waypoint x="390" y="160"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="440" y="200"/>
+        <di:waypoint x="440" y="230"/>
+        <di:waypoint x="290" y="230"/>
+        <di:waypoint x="290" y="260"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="340" y="300"/>
+        <di:waypoint x="390" y="300"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="490" y="300"/>
+        <di:waypoint x="540" y="300"/>
+      </bpmndi:BPMNEdge>
+
+      <!-- Association -->
+      <bpmndi:BPMNEdge id="Association_1_di" bpmnElement="Association_1">
+        <di:waypoint x="440" y="340"/>
+        <di:waypoint x="440" y="375"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
